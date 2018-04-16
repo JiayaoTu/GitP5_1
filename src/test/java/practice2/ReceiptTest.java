@@ -13,7 +13,9 @@ public class ReceiptTest {
     @Test
     public void should_get_correct_grand_total() throws Exception {
         //Given
-        Receipt receipt = new Receipt();
+       // Receipt receipt = new Receipt();
+        ReceiptTool receiptTool = new ReceiptTool();
+
         List<Product> products = asList(new Product(123,100, 0.2),
                 new Product(222,50, 0.1),
                 new Product(345,80, 0.2),
@@ -23,9 +25,9 @@ public class ReceiptTest {
                 new OrderItem(222, 2),
                 new OrderItem(345, 1),
                 new OrderItem(656, 3));
-
+                Receipt receipt = new Receipt(receiptTool,products,productCounts);
         //When
-        double grandTotal = receipt.CalculateGrandTotal(products, productCounts);
+        double grandTotal = receipt.totalPrice(receiptTool);
         double expectedTotal = 524.7;
 
         //Then

@@ -19,21 +19,45 @@ public class Order {
         BigDecimal subTotal = new BigDecimal(0);
 
         // Total up line items
-        for (OrderLineItem lineItem : orderLineItemList) {
-            subTotal = subTotal.add(lineItem.getPrice());
-        }
-
+        subTotal=calculateSubTotal(orderLineItemList);
         // Subtract discounts
-        for (BigDecimal discount : discounts) {
-            subTotal = subTotal.subtract(discount);
-        }
+        subTotal=subtractDiscounts(subTotal,discounts);
 
         // calculate tax
-        BigDecimal tax = subTotal.multiply(this.tax);
+        BigDecimal tax = calculateTax(subTotal,this.tax);
 
         // calculate GrandTotal
         BigDecimal grandTotal = subTotal.add(tax);
 
         return grandTotal;
     }
+
+    public BigDecimal calculateSubTotal(List<OrderLineItem> orderLineItemList)
+    {
+        BigDecimal subTotal= new BigDecimal(0);
+        for (OrderLineItem lineItem : orderLineItemList) {
+            subTotal = subTotal.add(lineItem.getPrice());
+        }
+
+        return subTotal;
+    }
+
+    public BigDecimal subtractDiscounts(BigDecimal subTotal,List<BigDecimal> discounts)
+    {
+        // Subtract discounts
+        for (BigDecimal discount : discounts) {
+            subTotal = subTotal.subtract(discount);
+        }
+
+        return subTotal;
+    }
+
+
+    public BigDecimal calculateTax(BigDecimal subTotal,BigDecimal tax )
+    {
+        return (subTotal.multiply(tax));
+    }
+
+
+
 }
